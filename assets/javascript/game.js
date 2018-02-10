@@ -1,66 +1,75 @@
 (function() {
 
+  //Current Problems
+  //Need to get random numbers in array to be different
 
-  var goal = Math.floor((Math.random() * 101)+ 19);
+  var goal;
   var wins = 0;
   var losses = 0;
-  
-  $("#goal").text(goal);
-  $("#wins").text(wins);
-  $("#losses").text(losses);
-  
-  var counter = 0;
-  
-  $("#score").text(counter);
-  
+  var counter;
   var numberOptions = [];
+  var imageCrystal;
 
   function gameLoad() {
-    var goal = Math.floor((Math.random() * 101)+ 19);
-    var wins = 0;
-    var losses = 0;
-  }
-  
-  for (var i = 0; i < 4; i++) {
-    randOpt = Math.floor((Math.random() * 12) +1);
-    console.log("First: " + randOpt);
-    numberOptions.push(randOpt);
+    goal = Math.floor((Math.random() * 101)+ 19);
+    $("#goal").text(goal);
+    $("#wins").text(wins);
+    $("#losses").text(losses);
+    counter = 0;
+    $("#score").text(counter);
+    numberOptions = [];
 
-    //Checks if the new random number is already in the array, if it's not it replaces it with a new random number.
-    //Need to make it check the second random number too.
-    for (var j = 1; j < numberOptions.length; j++) { 
-      while (randOpt === numberOptions[j-1]) {
-        randOpt = Math.floor((Math.random() * 12) +1);
-        numberOptions.splice(i, 1, randOpt);
-      console.log("Second: " + randOpt);
+    for (var i = 0; i < 4; i++) {
+      randOpt = Math.floor((Math.random() * 12) +1);
+      console.log("First: " + randOpt);
+      numberOptions.push(randOpt);
+
+      imageCrystal = $("<img>");
+      imageCrystal.addClass("crystal-image");
+      imageCrystal.attr("src", "assets/images/crystal-0" + (i+1) + ".png");
+      imageCrystal.attr("data-crystalvalue", numberOptions[i]);
+      $("#crystals").append(imageCrystal);
+  
+      //Checks if the new random number is already in the array, if it's not it replaces it with a new random number.
+      //Need to make it check the second random number too.
+      for (var j = 1; j < numberOptions.length; j++) { 
+        while (randOpt === numberOptions[j-1]) {
+          randOpt = Math.floor((Math.random() * 12) +1);
+          numberOptions.splice(i, 1, randOpt);
+        console.log("Second: " + randOpt);
+        }
       }
+      console.log(numberOptions);
     }
-    console.log(numberOptions);
   }
+
+  gameLoad();
   
-  for (var i = 0; i < 4; i++) {
-    var imageCrystal = $("<img>");
-    imageCrystal.addClass("crystal-image");
+ 
+
   
-    imageCrystal.attr("src", "assets/images/crystal-0" + (i+1) + ".png");
   
-    imageCrystal.attr("data-crystalvalue", numberOptions[i]);
-  
-    $("#crystals").append(imageCrystal);
-  }
-  
-  $(".crystal-image").on("click", function() {
+  $("#crystals").on("click", ".crystal-image", function() {
     counter += parseInt($(this).attr("data-crystalvalue"));
     $("#score").text(counter);
-  
     if (counter > goal) {
       alert("You lose");
       losses++;
       $("#losses").text(losses);
+      $("#crystals").empty();
+      $(".crystal-image").each(function(index) {
+        imageCrystal.attr("data-crystalvalue", numberOptions[index]);
+      });
+      gameLoad();
     } else if (counter == goal) {
       alert("You win");
       wins++;
       $("#wins").text(wins);
+      $("#crystals").empty();
+      $(".crystal-image").each(function(index) {
+        imageCrystal.attr("data-crystalvalue", numberOptions[index]);
+      });
+      gameLoad();
     }
   });
   

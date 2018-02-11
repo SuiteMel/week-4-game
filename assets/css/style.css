@@ -2,3 +2,29 @@
 .crystal-image {
   height: 100px;
 }
+
+h1 {
+  font-size: 30px;
+  background-color: #663399;
+  display: inline-block;
+  padding: 10px;
+  color: #FFF;
+}
+
+#description {
+  background-color: #444;
+  color: #FFF;
+  padding: 10px;
+  /* display: inline-block; */
+  max-width: 500px;
+}
+
+p {
+  padding: 10px;
+}
+
+#goal {
+  font-size: 26px;
+  padding: 10px;
+  background-color: #664488;
+}
